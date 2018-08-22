@@ -1,0 +1,30 @@
+{
+  "name": "godinnerapp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "apollo-boost": "^0.1.14",
+    "flow-bin": "^0.76.0",
+    "graphql": "^0.13.2",
+    "native-base": "^2.7.0",
+    "react": "16.3.1",
+    "react-apollo": "^2.1.11",
+    "react-native": "0.55.4",
+    "react-redux": "^5.0.7",
+    "react-router-native": "^4.3.0",
+    "redux": "^4.0.0"
+  },
+  "devDependencies": {
+    "babel-jest": "23.2.0",
+    "babel-preset-react-native": "4.0.0",
+    "jest": "23.3.0",
+    "react-test-renderer": "16.3.1"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
