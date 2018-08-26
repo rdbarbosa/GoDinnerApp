@@ -1,11 +1,45 @@
 import React, { Component } from "react";
 import { Button, Text, Form, Item as FormItem, Input, Icon } from "native-base";
-import { ImageBackground, Image, StatusBar, StyleSheet } from "react-native";
-import { withRouter } from "react-router";
+import {
+  ImageBackground,
+  Image,
+  StatusBar,
+  StyleSheet,
+  ToastAndroid,
+  BackHandler
+} from "react-native";
+import { withRouter } from "react-router-native";
+import { withApollo, compose } from "react-apollo";
+import { login } from "../graphql/Login";
 
 class FormLogin extends Component {
-
-  
+  state = {
+    password: "",
+    email: ""
+  };
+  componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      if (this.props.history.canGo(-1)) {
+        this.props.history.goBack();
+      } else {
+        BackHandler.exitApp();
+      }
+      return true;
+    });
+  }
+  handleForm = async () => {
+    const { client, history } = this.props;
+    const { password, email } = this.state;
+    try {
+      const { data } = await client.query({
+        query: login,
+        variables: { email, password }
+      });
+      history.push("/home");
+    } catch (error) {
+      console.log(error.graphQLErrors)
+    }
+  };
 
   render() {
     return (
@@ -22,33 +56,29 @@ class FormLogin extends Component {
           />
           <Form>
             <FormItem rounded style={styles.formItem}>
-              <Icon
-                style={{ color: "white" }}
-                type="EvilIcons"
-                name="envelope"
-              />
+              <Icon style={styles.iconWhite} type="EvilIcons" name="envelope" />
               <Input
+                onChangeText={email => this.setState({ email })}
                 style={styles.input}
+                textContentType="emailAddress"
+                keyboardType="email-address"
                 placeholderTextColor="#ffffff"
                 placeholder="Email"
               />
             </FormItem>
             <FormItem rounded style={styles.formItem}>
-              <Icon style={{ color: "white" }} type="EvilIcons" name="unlock" />
+              <Icon style={styles.iconWhite} type="EvilIcons" name="unlock" />
               <Input
+                onChangeText={password => this.setState({ password })}
                 placeholder="Password"
+                textContentType="password"
                 placeholderTextColor="#ffffff"
                 style={styles.input}
                 secureTextEntry={true}
               />
             </FormItem>
 
-            <Button
-              onPress={() => this.handleForm()}
-              full
-              rounded
-              style={styles.login}
-            >
+            <Button onPress={this.handleForm} full rounded style={styles.login}>
               <Text style={styles.loginText}>Login</Text>
             </Button>
           </Form>
@@ -59,6 +89,13 @@ class FormLogin extends Component {
 }
 
 const styles = StyleSheet.create({
+  formItem: {
+    backgroundColor: "rgba(255,255,255,.3)",
+    borderColor: "transparent",
+    marginTop: 15,
+    marginLeft: 20,
+    marginRight: 20
+  },
   bg: {
     backgroundColor: "#ccc",
     flex: 1,
@@ -67,27 +104,6 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center"
   },
-  formItem: {
-    backgroundColor: "rgba(255,255,255,.3)",
-    borderColor: "transparent",
-    marginTop: 15,
-    marginLeft: 20,
-    marginRight: 20
-  },
-  label: {},
-  input: {
-    color: "#ffffff",
-    letterSpacing: 1.5
-  },
-  loginText: {
-    fontSize: 15,
-    letterSpacing: 1.8
-  },
-  login: {
-    margin: 15,
-    marginTop: 30,
-    backgroundColor: "#2d388a"
-  },
   logo: {
     height: 60,
     width: null,
@@ -95,7 +111,12 @@ const styles = StyleSheet.create({
     marginTop: 100,
     marginBottom: 100,
     resizeMode: "contain"
-  }
+  },
+  login: { margin: 15, marginTop: 30, backgroundColor: "#2d388a" },
+  loginText: { fontSize: 15, letterSpacing: 1.8 },
+  input: { color: "#ffffff", letterSpacing: 1.5 },
+  iconWhite: { color: "white" },
+  label: {}
 });
 
-export default withRouter(FormLogin);
+export default withApollo(withRouter(FormLogin));
