@@ -6,12 +6,15 @@ import {
   StatusBar,
   StyleSheet,
   ToastAndroid,
-  BackHandler
+  BackHandler,
+  AsyncStorage
 } from "react-native";
 import { withRouter } from "react-router-native";
 import { withApollo, compose } from "react-apollo";
 import { login } from "../graphql/Login";
-
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Creators as TokenActions } from "../store/ducks/token";
 class FormLogin extends Component {
   state = {
     password: "",
@@ -28,16 +31,19 @@ class FormLogin extends Component {
     });
   }
   handleForm = async () => {
-    const { client, history } = this.props;
+    const { client, history, setToken } = this.props;
     const { password, email } = this.state;
     try {
+      console.log("query");
       const { data } = await client.query({
         query: login,
         variables: { email, password }
       });
+      console.log("asyncStorage", data.login.is);
+      setToken(data.login.token);
       history.push("/home");
     } catch (error) {
-      console.log(error.graphQLErrors)
+      console.log(error.graphQLErrors);
     }
   };
 
@@ -81,6 +87,12 @@ class FormLogin extends Component {
             <Button onPress={this.handleForm} full rounded style={styles.login}>
               <Text style={styles.loginText}>Login</Text>
             </Button>
+            <Text
+              onPress={() => this.props.history.push("/register")}
+              style={styles.haveAccount}
+            >
+              Não tem conta ainda?
+            </Text>
           </Form>
         </ImageBackground>
       </React.Fragment>
@@ -89,6 +101,12 @@ class FormLogin extends Component {
 }
 
 const styles = StyleSheet.create({
+  haveAccount: {
+    textAlign: "center",
+    color: "white",
+    // marginLeft: 20,
+    marginTop: 20
+  },
   formItem: {
     backgroundColor: "rgba(255,255,255,.3)",
     borderColor: "transparent",
@@ -119,4 +137,14 @@ const styles = StyleSheet.create({
   label: {}
 });
 
-export default withApollo(withRouter(FormLogin));
+const mapStateToProps = state => ({
+  token: state.token
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(TokenActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withApollo(withRouter(FormLogin)));
