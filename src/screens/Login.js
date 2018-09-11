@@ -17,8 +17,8 @@ import { bindActionCreators } from "redux";
 import { Creators as TokenActions } from "../store/ducks/token";
 class FormLogin extends Component {
   state = {
-    password: "",
-    email: ""
+    password: "91533266",
+    email: "mgl.deadly@gmail.com"
   };
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", () => {
@@ -70,6 +70,8 @@ class FormLogin extends Component {
                 keyboardType="email-address"
                 placeholderTextColor="#ffffff"
                 placeholder="Email"
+                value={this.state.email}
+                
               />
             </FormItem>
             <FormItem rounded style={styles.formItem}>
@@ -81,6 +83,7 @@ class FormLogin extends Component {
                 placeholderTextColor="#ffffff"
                 style={styles.input}
                 secureTextEntry={true}
+                value={this.state.password}
               />
             </FormItem>
 
