@@ -17,6 +17,7 @@ import {
 } from "native-base";
 import Navigation from "../components/Navigation";
 import RestaurantCard from "../components/RestaurantCard";
+import CustomHeader from '../components/CustomHeader'
 import { withApollo } from "react-apollo";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -25,38 +26,25 @@ class Home extends React.Component {
   state = {
     restaurants: []
   };
-  async componentWillMount() {
+  componentWillMount() {
     const { client, token } = this.props;
-    try {
-      const { data } = await client.query({
+      client.query({
         query: fetchRestaurants
-      });
-      this.setState({ restaurants: data.restaurant });
-    } catch (error) {
-      console.dir(error);
-    }
+      })
+      .then(({data}) => this.setState({ restaurants: data.restaurant }))
+      .catch(error => console.error(error));
   }
   render() {
     return (
       <Container>
-        <Header>
-          <Left>
-            <Button transparent>
-              <Icon name="md-menu" />
-            </Button>
-          </Left>
-          <Body>
-            <Title>Pelotas, RS</Title>
-          </Body>
-          <Right>
-            <Button transparent>
-              <Icon name="location" type="Entypo" />
-            </Button>
-          </Right>
-        </Header>
+        <CustomHeader 
+          iconLeft={{name:'md-menu'}}
+          iconRight={{name: 'location', type: "Entypo"}}
+          title={"Pelotas, RS"}
+        />
         <Content style={{ backgroundColor: "#f6f6f6", marginTop: 15 }}>
           <View alignItems={"center"}>
-            {this.state.restaurants.map(({ id, name, avatar_url }) => (
+            {[...this.state.restaurants].splice(0,10).map(({ id, name, avatar_url }) => (
               <RestaurantCard
                 key={id}
                 thumb={{ uri: avatar_url }}
