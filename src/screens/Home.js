@@ -21,17 +21,25 @@ import CustomHeader from '../components/CustomHeader'
 import { withApollo } from "react-apollo";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Creators as TokenActions } from "../store/ducks/token";
+
+import { Creators as RestaurantActions } from "../store/ducks/restaurants";
+import { Creators as ClientActions } from "../store/ducks/client";
 class Home extends React.Component {
   state = {
     restaurants: []
   };
   componentWillMount() {
-    const { client, token } = this.props;
+    const { client, token, updateRestaurants, updateClient } = this.props;
       client.query({
         query: fetchRestaurants
       })
-      .then(({data}) => this.setState({ restaurants: data.restaurant }))
+      .then(({data}) => {
+        console.log(updateRestaurants)
+        this.setState({ restaurants: data.restaurant })
+        console.log(data)
+          updateRestaurants(data.restaurant)
+          // updateClient(data.client)
+        })
       .catch(error => console.error(error));
   }
   render() {
@@ -66,11 +74,12 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  token: state.token
+  token: state.token,
+  restaurants: state.restaurants
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators(TokenActions, dispatch);
+  bindActionCreators({...RestaurantActions,...ClientActions}, dispatch);
 
 export default connect(
   mapStateToProps,

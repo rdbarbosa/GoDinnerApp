@@ -15,10 +15,12 @@ import { login } from "../graphql/Login";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Creators as TokenActions } from "../store/ducks/token";
+import { Creators as ClientActions } from "../store/ducks/client";
+
 class FormLogin extends Component {
   state = {
-    password: "91533266",
-    email: "mgl.deadly@gmail.com"
+    password: "123456",
+    email: "admin@godinner.com"
   };
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", () => {
@@ -31,7 +33,7 @@ class FormLogin extends Component {
     });
   }
   handleForm = async () => {
-    const { client, history, setToken } = this.props;
+    const { client, history, setToken, updateClient } = this.props;
     const { password, email } = this.state;
     try {
       console.log("query");
@@ -39,11 +41,12 @@ class FormLogin extends Component {
         query: login,
         variables: { email, password }
       });
-      console.log("asyncStorage", data.login.is);
+      console.log("asyncStorage", data.login);
       setToken(data.login.token);
+      updateClient(data.login.client)
       history.push("/home");
     } catch (error) {
-      console.log(error.graphQLErrors);
+      ToastAndroid.show('Ocorreu um erro, tente novamente mais tarde', ToastAndroid.SHORT)
     }
   };
 
@@ -145,7 +148,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators(TokenActions, dispatch);
+  bindActionCreators({...TokenActions, ...ClientActions}, dispatch);
 
 export default connect(
   mapStateToProps,
