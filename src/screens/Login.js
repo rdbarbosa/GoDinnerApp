@@ -74,7 +74,7 @@ class FormLogin extends Component {
                 placeholderTextColor="#ffffff"
                 placeholder="Email"
                 value={this.state.email}
-                
+
               />
             </FormItem>
             <FormItem rounded style={styles.formItem}>
@@ -148,7 +148,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({...TokenActions, ...ClientActions}, dispatch);
+  bindActionCreators({ ...TokenActions, ...ClientActions }, dispatch);
 
 export default connect(
   mapStateToProps,

@@ -4,7 +4,7 @@ import token from "./token";
 import restaurants from "./restaurants"
 import client from "./client"
 export default combineReducers({
-  token,
+  client,
   restaurants,
-  client
+  token,
 });

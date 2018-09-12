@@ -3,17 +3,9 @@ import { withRouter } from "react-router";
 import { AsyncStorage } from "react-native";
 import { fetchRestaurants } from "../graphql/Home";
 import {
-  Header,
-  Left,
-  Body,
-  Right,
-  Button,
-  Icon,
-  Title,
   Container,
   Content,
   View,
-  StyleProvider
 } from "native-base";
 import Navigation from "../components/Navigation";
 import RestaurantCard from "../components/RestaurantCard";

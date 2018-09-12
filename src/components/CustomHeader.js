@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router";
 
-import {Header, Left, Button, Icon, Right, Title, Body} from 'native-base'
+import { Header, Left, Button, Icon, Right, Title, Body } from 'native-base'
 const CustomHeader = ({ iconLeft, title, iconRight, history }) => (
     <Header>
         <Left>
