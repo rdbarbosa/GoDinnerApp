@@ -69,5 +69,11 @@ export const fetchRestaurants = gql`
         state
       }
     }
+
+    client(id: 1) {
+      id
+      name
+      avatar_url
+    }
   }
 `;

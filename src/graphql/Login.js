@@ -8,6 +8,17 @@ export const login = gql`
             restaurant {
                 name
             }
+            client {
+                id
+                name
+                lastname
+                phone_number
+                avatar_url
+                description
+                user {
+                    email
+                }
+            }
         }
     }
 `

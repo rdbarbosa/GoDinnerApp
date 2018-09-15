@@ -11,10 +11,12 @@ import {
 } from "react-native";
 import { withRouter } from "react-router-native";
 import { withApollo, compose } from "react-apollo";
-import { login } from "../graphql/Login";
+import { register } from "../graphql/Register";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Creators as TokenActions } from "../store/ducks/token";
+import { Mutation } from "react-apollo";
+
 class Register extends Component {
   state = {
     name: "",
@@ -33,20 +35,16 @@ class Register extends Component {
       return true;
     });
   }
-  handleForm = async () => {
-    const { client, history, setToken } = this.props;
-    const { password, email } = this.state;
+  async handleForm (register, data) {
+    const { history, setToken } = this.props;
+    const { password, email, name, lastname, phoneNumber } = this.state;
     try {
-      console.log("query");
-      const { data } = await client.query({
-        query: login,
-        variables: { email, password }
-      });
-      console.log("asyncStorage", data.login.is);
-      setToken(data.login.token);
-      history.push("/home");
+      register({
+        variables: { email, password, name, lastname, phone_number: phoneNumber }
+      })
+      ToastAndroid.show('Cadastrado com sucesso!', ToastAndroid.SHORT)
     } catch (error) {
-      console.log(error.graphQLErrors);
+      ToastAndroid.show('Ocorreu um erro, tente novamente mais tarde', ToastAndroid.SHORT)
     }
   };
 
@@ -117,10 +115,13 @@ class Register extends Component {
                 secureTextEntry={true}
               />
             </FormItem>
-
-            <Button onPress={this.handleForm} full rounded style={styles.login}>
-              <Text style={styles.loginText}>Cadastrar</Text>
-            </Button>
+            <Mutation mutation={register}>
+              {(register, {data}) => (
+                <Button onPress={() => this.handleForm(register, data)} full rounded style={styles.login}>
+                  <Text style={styles.loginText}>Cadastrar</Text>
+                </Button>
+              )}
+            </Mutation>
             <Text
               onPress={() => this.props.history.push("/")}
               style={styles.haveAccount}

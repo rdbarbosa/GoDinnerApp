@@ -15,10 +15,17 @@ import { login } from "../graphql/Login";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Creators as TokenActions } from "../store/ducks/token";
+import { Creators as ClientActions } from "../store/ducks/client";
+
 class FormLogin extends Component {
   state = {
+<<<<<<< HEAD
     password: "91533266",
     email: "mgl.deadly3@gmail.com"
+=======
+    password: "123456",
+    email: "admin@godinner.com"
+>>>>>>> a00597fe1f1d93436a1a1ec5f9f275d7ec40021a
   };
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", () => {
@@ -31,7 +38,7 @@ class FormLogin extends Component {
     });
   }
   handleForm = async () => {
-    const { client, history, setToken } = this.props;
+    const { client, history, setToken, updateClient } = this.props;
     const { password, email } = this.state;
     try {
       // console.log("query");
@@ -39,11 +46,16 @@ class FormLogin extends Component {
         query: login,
         variables: { email, password }
       });
+<<<<<<< HEAD
       // console.log("asyncStorage", data.login.is);
+=======
+      console.log("asyncStorage", data.login);
+>>>>>>> a00597fe1f1d93436a1a1ec5f9f275d7ec40021a
       setToken(data.login.token);
+      updateClient(data.login.client)
       history.push("/home");
     } catch (error) {
-      console.log(error.graphQLErrors);
+      ToastAndroid.show('Ocorreu um erro, tente novamente mais tarde', ToastAndroid.SHORT)
     }
   };
 
@@ -71,6 +83,8 @@ class FormLogin extends Component {
                 value={this.state.email}
                 placeholderTextColor="#ffffff"
                 placeholder="Email"
+                value={this.state.email}
+
               />
             </FormItem>
             <FormItem rounded style={styles.formItem}>
@@ -83,6 +97,7 @@ class FormLogin extends Component {
                 value={this.state.password}
                 style={styles.input}
                 secureTextEntry={true}
+                value={this.state.password}
               />
             </FormItem>
 
@@ -144,7 +159,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators(TokenActions, dispatch);
+  bindActionCreators({ ...TokenActions, ...ClientActions }, dispatch);
 
 export default connect(
   mapStateToProps,
