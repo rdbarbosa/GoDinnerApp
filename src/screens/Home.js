@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router";
-import { AsyncStorage } from "react-native";
+import { FlatList } from "react-native";
 import { fetchRestaurants } from "../graphql/Home";
 import {
   Header,
@@ -20,20 +20,16 @@ import RestaurantCard from "../components/RestaurantCard";
 import { withApollo } from "react-apollo";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Creators as TokenActions } from "../store/ducks/token";
+import { Creators as RestaurantsActions } from "../store/ducks/restaurants";
 class Home extends React.Component {
-  state = {
-    restaurants: []
-  };
   async componentWillMount() {
-    const { client, token } = this.props;
+    const { client, restaurants, updateRestaurants } = this.props;
+    console.log(restaurants);
     try {
-      const { data } = await client.query({
-        query: fetchRestaurants
-      });
-      this.setState({ restaurants: data.restaurant });
+      const { data } = await client.query({ query: fetchRestaurants });
+      updateRestaurants(data.restaurant);
     } catch (error) {
-      console.dir(error);
+      console.warn(error);
     }
   }
   render() {
@@ -55,8 +51,11 @@ class Home extends React.Component {
           </Right>
         </Header>
         <Content style={{ backgroundColor: "#f6f6f6", marginTop: 15 }}>
-          <View alignItems={"center"}>
-            {this.state.restaurants.map(({ id, name, avatar_url }) => (
+          <FlatList
+            style={{ width: "100%" }}
+            keyExtractor={(item, index) => item.id.toString()}
+            data={this.props.restaurants}
+            renderItem={({ item: { id, avatar_url, name }, index }) => (
               <RestaurantCard
                 key={id}
                 thumb={{ uri: avatar_url }}
@@ -68,21 +67,22 @@ class Home extends React.Component {
                 }}
                 avaliation={3}
               />
-            ))}
-          </View>
-        </Content> 
+            )}
+          />
+        </Content>
         <Navigation />
-      </Container> 
+      </Container>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  token: state.token
+const mapStateToProps = ({ token, restaurants }) => ({
+  token,
+  restaurants
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators(TokenActions, dispatch);
+  bindActionCreators(RestaurantsActions, dispatch);
 
 export default connect(
   mapStateToProps,

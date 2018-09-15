@@ -25,7 +25,7 @@ const secret = new ApolloClient({
       }
     });
   }
-});
+}); 
 
 const client = new ApolloClient({
   uri: urlHml + "/graphql"

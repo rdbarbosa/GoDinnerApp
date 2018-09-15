@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 import { CardItem, Left, Thumbnail, Body, Right, Text, Icon, Card } from "native-base";
 
 const RestaurantCard = ({ name, desc, time = {}, avaliation = 0, thumb }) => (
-  <Card style={{elevation: 0, width: "93%", borderColor: 'white'}}>
+  <Card style={{elevation: 0, width: "93%", borderColor: 'white', marginLeft: "3.5%"}}>
     <CardItem>
       <Left>
         <Thumbnail source={thumb} />

@@ -17,8 +17,8 @@ import { bindActionCreators } from "redux";
 import { Creators as TokenActions } from "../store/ducks/token";
 class FormLogin extends Component {
   state = {
-    password: "",
-    email: ""
+    password: "91533266",
+    email: "mgl.deadly3@gmail.com"
   };
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", () => {
@@ -34,12 +34,12 @@ class FormLogin extends Component {
     const { client, history, setToken } = this.props;
     const { password, email } = this.state;
     try {
-      console.log("query");
+      // console.log("query");
       const { data } = await client.query({
         query: login,
         variables: { email, password }
       });
-      console.log("asyncStorage", data.login.is);
+      // console.log("asyncStorage", data.login.is);
       setToken(data.login.token);
       history.push("/home");
     } catch (error) {
@@ -68,6 +68,7 @@ class FormLogin extends Component {
                 style={styles.input}
                 textContentType="emailAddress"
                 keyboardType="email-address"
+                value={this.state.email}
                 placeholderTextColor="#ffffff"
                 placeholder="Email"
               />
@@ -79,6 +80,7 @@ class FormLogin extends Component {
                 placeholder="Password"
                 textContentType="password"
                 placeholderTextColor="#ffffff"
+                value={this.state.password}
                 style={styles.input}
                 secureTextEntry={true}
               />
