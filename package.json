@@ -5,7 +5,8 @@
   "scripts": {
     "postinstall": "rndebugger-open",
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "clean": "cd android & .\\gradlew clean & cd .. & react-native run-android"
   },
   "dependencies": {
     "apollo-boost": "^0.1.14",

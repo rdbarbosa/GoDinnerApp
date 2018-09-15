@@ -13,19 +13,6 @@ import CustomHeader from '../components/CustomHeader'
 import { withApollo } from "react-apollo";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-<<<<<<< HEAD
-import { Creators as RestaurantsActions } from "../store/ducks/restaurants";
-class Home extends React.Component {
-  async componentWillMount() {
-    const { client, restaurants, updateRestaurants } = this.props;
-    console.log(restaurants);
-    try {
-      const { data } = await client.query({ query: fetchRestaurants });
-      updateRestaurants(data.restaurant);
-    } catch (error) {
-      console.warn(error);
-    }
-=======
 
 import { Creators as RestaurantActions } from "../store/ducks/restaurants";
 import { Creators as ClientActions } from "../store/ducks/client";
@@ -46,7 +33,6 @@ class Home extends React.Component {
           // updateClient(data.client)
         })
       .catch(error => console.error(error));
->>>>>>> a00597fe1f1d93436a1a1ec5f9f275d7ec40021a
   }
   render() {
     return (
@@ -57,16 +43,11 @@ class Home extends React.Component {
           title={"Pelotas, RS"}
         />
         <Content style={{ backgroundColor: "#f6f6f6", marginTop: 15 }}>
-<<<<<<< HEAD
           <FlatList
             style={{ width: "100%" }}
             keyExtractor={(item, index) => item.id.toString()}
             data={this.props.restaurants}
             renderItem={({ item: { id, avatar_url, name }, index }) => (
-=======
-          <View alignItems={"center"}>
-            {[...this.state.restaurants].splice(0,10).map(({ id, name, avatar_url }) => (
->>>>>>> a00597fe1f1d93436a1a1ec5f9f275d7ec40021a
               <RestaurantCard
                 key={id}
                 thumb={{ uri: avatar_url }}
@@ -87,15 +68,6 @@ class Home extends React.Component {
   }
 }
 
-<<<<<<< HEAD
-const mapStateToProps = ({ token, restaurants }) => ({
-  token,
-  restaurants
-});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(RestaurantsActions, dispatch);
-=======
 const mapStateToProps = state => ({
   token: state.token,
   restaurants: state.restaurants
@@ -103,7 +75,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators({...RestaurantActions,...ClientActions}, dispatch);
->>>>>>> a00597fe1f1d93436a1a1ec5f9f275d7ec40021a
 
 export default connect(
   mapStateToProps,

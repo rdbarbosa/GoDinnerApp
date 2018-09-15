@@ -19,13 +19,8 @@ import { Creators as ClientActions } from "../store/ducks/client";
 
 class FormLogin extends Component {
   state = {
-<<<<<<< HEAD
-    password: "91533266",
-    email: "mgl.deadly3@gmail.com"
-=======
     password: "123456",
     email: "admin@godinner.com"
->>>>>>> a00597fe1f1d93436a1a1ec5f9f275d7ec40021a
   };
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", () => {
@@ -46,11 +41,7 @@ class FormLogin extends Component {
         query: login,
         variables: { email, password }
       });
-<<<<<<< HEAD
-      // console.log("asyncStorage", data.login.is);
-=======
       console.log("asyncStorage", data.login);
->>>>>>> a00597fe1f1d93436a1a1ec5f9f275d7ec40021a
       setToken(data.login.token);
       updateClient(data.login.client)
       history.push("/home");
