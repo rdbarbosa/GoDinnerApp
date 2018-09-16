@@ -10,6 +10,9 @@ export const fetchRestaurants = gql`
       number
       phone_number
       cellphone_number
+      latitude
+      longitude
+      status
       cpnj
       avatar_url
       description

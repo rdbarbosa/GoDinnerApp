@@ -12,6 +12,7 @@ import {
 import { withRouter } from "react-router-native";
 import { withApollo, compose } from "react-apollo";
 import { register } from "../graphql/Register";
+import CustomToast from "../components/CustomToast";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Creators as TokenActions } from "../store/ducks/token";
@@ -35,18 +36,27 @@ class Register extends Component {
       return true;
     });
   }
-  async handleForm (register, data) {
+  async handleForm(register, data) {
     const { history, setToken } = this.props;
     const { password, email, name, lastname, phoneNumber } = this.state;
     try {
       register({
-        variables: { email, password, name, lastname, phone_number: phoneNumber }
-      })
-      ToastAndroid.show('Cadastrado com sucesso!', ToastAndroid.SHORT)
+        variables: {
+          email,
+          password,
+          name,
+          lastname,
+          phone_number: phoneNumber
+        }
+      });
+      CustomToast({ text: "Cadastrado com sucesso!", type: "success" });
     } catch (error) {
-      ToastAndroid.show('Ocorreu um erro, tente novamente mais tarde', ToastAndroid.SHORT)
+      CustomToast({
+        text: "Ocorreu um erro, tente novamente mais tarde",
+        type: "danger",
+      });
     }
-  };
+  }
 
   render() {
     return (
@@ -116,8 +126,13 @@ class Register extends Component {
               />
             </FormItem>
             <Mutation mutation={register}>
-              {(register, {data}) => (
-                <Button onPress={() => this.handleForm(register, data)} full rounded style={styles.login}>
+              {(register, { data }) => (
+                <Button
+                  onPress={() => this.handleForm(register, data)}
+                  full
+                  rounded
+                  style={styles.login}
+                >
                   <Text style={styles.loginText}>Cadastrar</Text>
                 </Button>
               )}
@@ -175,7 +190,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   token: state.token
 });
- 
+
 const mapDispatchToProps = dispatch =>
   bindActionCreators(TokenActions, dispatch);
 

@@ -1,9 +1,17 @@
 import React, { Component } from "react";
 import { AsyncStorage } from "react-native";
 import { ApolloProvider } from "react-apollo";
-import { Login, Home, Order, Checkin, Perfil, Register, MapRestaurant } from "./screens";
+import {
+  Login,
+  Home,
+  Order,
+  Checkin,
+  Perfil,
+  Register,
+  MapRestaurant
+} from "./screens";
 import { NativeRouter, Route, Switch } from "react-router-native";
-import { StyleProvider } from "native-base";
+import { StyleProvider, Root } from "native-base";
 import { Provider } from "react-redux";
 
 import ApolloClient, { gql } from "apollo-boost";
@@ -25,7 +33,7 @@ const secret = new ApolloClient({
       }
     });
   }
-}); 
+});
 
 const client = new ApolloClient({
   uri: urlHml + "/graphql"
@@ -34,30 +42,32 @@ const client = new ApolloClient({
 export default class App extends Component {
   render() {
     return (
-      <Provider store={store}>
-        <StyleProvider style={getTheme(godinner)}>
-          <NativeRouter>
-            <React.Fragment>
-              <ApolloProvider client={secret}>
-                <Switch>
-                  <Route exact path="/home" component={Home} />
-                  <Route exact path="/order" component={Order} />
-                  <Route exact path="/checkin" component={Checkin} />
-                  <Route exact path="/perfil" component={Perfil} />
-                  <Route exact path="/map" component={MapRestaurant} />
-                </Switch>
-              </ApolloProvider>
-              <ApolloProvider client={client}>
-                <Switch>
-                  <Route exact path="/register" component={Register} />
-                  <Route exact path="/" component={Login} />
-                  {/* <Route exact path="/" component={Home} /> */}
-                </Switch>
-              </ApolloProvider>
-            </React.Fragment>
-          </NativeRouter>
-        </StyleProvider>
-      </Provider>
+      <Root>
+        <Provider store={store}>
+          <StyleProvider style={getTheme(godinner)}>
+            <NativeRouter>
+              <React.Fragment>
+                <ApolloProvider client={secret}> 
+                  <Switch>
+                    <Route exact path="/home" component={Home} />
+                    <Route exact path="/order" component={Order} />
+                    <Route exact path="/checkin" component={Checkin} />
+                    <Route exact path="/perfil" component={Perfil} />
+                    <Route exact path="/map" component={MapRestaurant} />
+                  </Switch>
+                </ApolloProvider>
+                <ApolloProvider client={client}>
+                  <Switch>
+                    <Route exact path="/register" component={Register} />
+                    <Route exact path="/" component={Login} />
+                    {/* <Route exact path="/" component={Home} /> */}
+                  </Switch>
+                </ApolloProvider>
+              </React.Fragment>
+            </NativeRouter>
+          </StyleProvider>
+        </Provider>
+      </Root>
     );
   }
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { Footer, FooterTab, Button, Icon, Text } from "native-base";
 import { withRouter } from "react-router-native";
 const Navigation = ({ history, location }) => (
-  <Footer style={{ marginBottom: -3 }}>
+  <Footer style={{ marginBottom: -3, padding: 0 }}>
     <FooterTab>
       <Button
         vertical
@@ -10,7 +10,7 @@ const Navigation = ({ history, location }) => (
         active={location.pathname == "/home"}
       >
         <Icon type="MaterialIcons" name="restaurant-menu" />
-        <Text>Restaurant</Text>
+        <Text>Restaurantes</Text>
       </Button>
       <Button
         vertical
