@@ -22,7 +22,6 @@ class Perfil extends React.Component {
           title={"Perfil"}
         />
         <Content>
-
           <View style={{ flexDirection: 'column', flex: 1, height: 600, alignItems: 'center', marginTop: 70 }}>
             <View style={{ elevation: 1, zIndex: -1, backgroundColor: 'white', paddingTop: 50, paddingLeft: 20, paddingRight: 20, paddingBottom: 50 }}>
               <View style={{ elevation: 1, zIndex: 5, width: 300, alignItems: 'center' }}>

@@ -10,7 +10,7 @@ const Navigation = ({ history, location }) => (
         active={location.pathname == "/home"}
       >
         <Icon type="MaterialIcons" name="restaurant-menu" />
-        <Text>Restaurantes</Text>
+        <Text style={{paddingLeft: 0, paddingRight: 0}}>Restaurantes</Text>
       </Button>
       <Button
         vertical

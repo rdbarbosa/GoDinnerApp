@@ -40,7 +40,7 @@ class Register extends Component {
     const { history, setToken } = this.props;
     const { password, email, name, lastname, phoneNumber } = this.state;
     try {
-      register({
+      await register({
         variables: {
           email,
           password,
@@ -52,7 +52,7 @@ class Register extends Component {
       CustomToast({ text: "Cadastrado com sucesso!", type: "success" });
     } catch (error) {
       CustomToast({
-        text: "Ocorreu um erro, tente novamente mais tarde",
+        text: "Ocorreu um erro, verifique os campos e tente novamente",
         type: "danger",
       });
     }
