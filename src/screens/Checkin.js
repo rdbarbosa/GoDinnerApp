@@ -6,19 +6,40 @@ import CustomHeader from "../components/CustomHeader";
 import { withApollo } from "react-apollo";
 import { READ_QR } from "../graphql/QRCode";
 import CustomToast from "../components/CustomToast";
+import { debounce } from "lodash";
+import { withRouter } from "react-router";
 class Checkin extends React.Component {
     camera = {};
-    onRead = async e => {
-        this.camera.stopPreview();
-        const data = await this.props.client.query({
-            query: READ_QR,
-            variables: { qr_code: e }
-        });
-        CustomToast({
-            text: "Bem vindo ao " + data.restaurant.name
-        });
 
-        console.warn(`leu`, e);
+    state = {
+        read: false
+    };
+
+    componentWillMount() {}
+    onRead = async e => {
+        // this.camera.stopPreview();
+        if (this.state.read === true) return;
+        this.setState({ read: true });
+        try {
+            const { data } = await this.props.client.query({
+                query: READ_QR,
+                variables: { qr_code: e.data }
+            });
+            console.log("passou aqui", data);
+            const {name, qr_code_table} = data.restaurant[0]
+            CustomToast({
+                text: `Bem vindo ao ${name}, mesa: ${qr_code_table.table_number} `,
+                type: "success"
+            });
+            this.props.history.push("/order");
+        } catch (error) {
+            CustomToast({
+                text: "Ocorreu um erro ao tentar ler, tente novamente",
+                type: "danger"
+            });
+        }
+
+        // console.warn(`leu`, e);
     };
     render() {
         return (
@@ -39,9 +60,6 @@ class Checkin extends React.Component {
                         barCodeTypes={["org.iso.QRCode"]}
                         onBarCodeRead={this.onRead}
                     >
-                        {({ camera, status }) => {
-                            this.camera = camera;
-                        }}
                         <View
                             style={{
                                 flex: 1,
@@ -95,4 +113,4 @@ class Checkin extends React.Component {
     }
 }
 
-export default withApollo(Checkin);
+export default withRouter(withApollo(Checkin));
