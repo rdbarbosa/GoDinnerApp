@@ -23,11 +23,8 @@ class Home extends React.Component {
         query: fetchRestaurants
       })
       .then(({ data }) => {
-        console.log(updateRestaurants);
         this.setState({ restaurants: data.restaurant });
-        console.log(data);
         updateRestaurants(data.restaurant);
-        // updateClient(data.client)
       })
       .catch(error => console.error(error));
   }
