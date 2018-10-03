@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Container, Text, Content } from "native-base";
 import CustomHeader from "../components/CustomHeader";
 import Navigation from "../components/Navigation";
@@ -14,31 +15,26 @@ class MapRestaurant extends React.Component {
         lng: +Number(restaurant.longitude).toFixed(7),
         ttl: restaurant.name 
       }))
-    }, () => console.log(this.state.markers));
+    });
+
+    navigator.geolocation.getCurrentPosition(geo => {
+      console.log(geo)
+      this.setState({initialRegion: {
+        latitude: geo.coords.latitude,
+        longitude: geo.coords.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+      }})
+    }, error => console.log(error), {enableHighAccuracy: true})
   }
   state = {
-    markers: [ 
-      {
-        lat: -31.7754348,
-        lng: -52.3404474,
-        ttl: "Circulus Lanches"
-      },
-      {
-        lat: -31.7752279,
-        lng: -52.3405152,
-        ttl: "Jão"
-      },
-      {
-        lat: -31.7752375,
-        lng: -52.3411891,
-        ttl: "Pizzaria Open"
-      },
-      {
-        lat: -31.7742047,
-        lng: -52.3426851,
-        ttl: "Sanata"
-      }
-    ]
+    markers: [],
+    initialRegion: {
+      latitude: -31.770046,
+      longitude: -52.340527,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421
+    }
   };
   render() {
     return (
@@ -50,12 +46,7 @@ class MapRestaurant extends React.Component {
         />
         <Content>
           <MapView
-            initialRegion={{
-              latitude: -31.676155,
-              longitude: -52.337962,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421
-            }}
+            initialRegion={this.state.initialRegion}
             style={{ flex: 1, height: 600 }}
           >
             {this.state.markers.map((marker, index) => (
