@@ -4,6 +4,7 @@ import { createActions, createReducer } from "reduxsauce";
  * Action types & creators
  */
 export const { Types, Creators } = createActions({
+  updateType: ["orderType"],
   updateOrder: ["order"],
   clearOrder: [],
   addOption: ["id"],
@@ -14,6 +15,7 @@ export const { Types, Creators } = createActions({
  * Handlers
  */
 const INITIAL_STATE = {
+  order_type: "",
   client: {},
   restaurant: {},
   restaurant_table: {},
@@ -40,6 +42,10 @@ const removeOption = (state = INITIAL_STATE, action) => {
     menu_options: array
   };
 };
+const updateType = (state = INITIAL_STATE, action) => ({
+  ...state,
+  order_type: action.orderType
+});
 
 /**
  * Reducer
@@ -48,5 +54,6 @@ export default createReducer(INITIAL_STATE, {
   [Types.UPDATE_ORDER]: update,
   [Types.CLEAR_ORDER]: clear,
   [Types.ADD_OPTION]: addOption,
-  [Types.REMOVE_OPTION]: removeOption
+  [Types.REMOVE_OPTION]: removeOption,
+  [Types.UPDATE_TYPE]: updateType
 });

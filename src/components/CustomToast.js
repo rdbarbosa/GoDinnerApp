@@ -7,8 +7,8 @@ import { Toast } from "native-base";
  * @param {String} ToastOptions.buttonText
  * @param {Object} ToastOptions.buttonStyle
  * @param {TextStyle} ToastOptions.buttonTextStyle
- * @param {String} ToastOptions.type
- * @param {String} ToastOptions.position ['bottom', 'top', 'center']
+ * @param {('danger' | 'warning' | 'success')} ToastOptions.type
+ * @param {('bottom' | 'top' | 'center')} ToastOptions.position ['bottom', 'top', 'center']
  * @param {Function} ToastOptions.onClose
  * @param {Object} ToastOptions.textStyle
  */

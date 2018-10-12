@@ -6,8 +6,11 @@ import CustomHeader from "../components/CustomHeader";
 import { withApollo } from "react-apollo";
 import { READ_QR } from "../graphql/QRCode";
 import CustomToast from "../components/CustomToast";
-import { debounce } from "lodash";
+import { connect } from "react-redux";
 import { withRouter } from "react-router";
+import { bindActionCreators } from "redux";
+import { Creators as OrderActions } from "../store/ducks/order";
+
 class Checkin extends React.Component {
   camera = {};
 
@@ -19,26 +22,47 @@ class Checkin extends React.Component {
     /**
      * #DEBUG
      */
-    setTimeout(async ()=> {
-
-      const { data } = await this.props.client.query({
-        query: READ_QR,
-        variables: { qr_code: '$2y$10$Eq/GsXJhYkvMKiewBJ1nk.RZAyBPdcPcxhoIQzWu/ZCnaisMWsdwe'}
-      });
-      console.log("passou aqui", data);
-      const { name, qr_code_table } = data.restaurant[0];
-      CustomToast({
-        text: `Bem vindo ao ${name}, você está na mesa: ${qr_code_table.table_number} `,
-        type: "success",
-        duration: 4000
-
-      });
-      this.props.history.push("/order", {restaurant: data.restaurant[0], qr_code_table});
-    }, 300)
+    setTimeout(async () => {
+      try {
+        const { data } = await this.props.client.query({
+          query: READ_QR,
+          fetchPolicy: "no-cache",
+          variables: {
+            qr_code:
+              "$2y$10$QPIqboTpdCpiEoqBSlyDOu4eWZmkTOxY9wsnKk8u6JwPZW6EGE/uW"
+          }
+        });
+        console.log("passou aqui", data);
+        const { name, qr_code_table } = data.restaurant[0];
+        CustomToast({
+          text: `Bem vindo ao ${name}, você está na mesa: ${
+            qr_code_table.table_number
+          } `,
+          type: "success",
+          duration: 4000
+        });
+        this.props.updateOrder({
+          ...this.props.order,
+          client: this.props.currentClient,
+          restaurant_table: qr_code_table,
+          restaurant: data.restaurant[0]
+        });
+        this.props.updateType("ORDERING");
+        this.props.history.push("/order");
+      } catch (error) {
+        if (error.graphQLErrors[0]) {
+          CustomToast({
+            text: error.graphQLErrors[0].message,
+            type: "danger",
+            duration: 3000
+          });
+        }
+        return;
+      }
+    }, 300);
     /**
-     * 
+     *
      */
-
   }
   onRead = async e => {
     // this.camera.stopPreview();
@@ -47,6 +71,7 @@ class Checkin extends React.Component {
     try {
       const { data } = await this.props.client.query({
         query: READ_QR,
+        fetchPolicy: "network-only",
         variables: { qr_code: e.data }
       });
       console.log("passou aqui", data);
@@ -134,5 +159,15 @@ class Checkin extends React.Component {
     );
   }
 }
+const mapStateToProps = ({ order, client }) => ({
+  order,
+  currentClient: client
+});
 
-export default withRouter(withApollo(Checkin));
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(OrderActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(withApollo(Checkin)));
