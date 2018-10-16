@@ -18,24 +18,34 @@ import {
   Footer,
   Left
 } from "native-base";
-import Navigation from "../components/Navigation";
 import CustomHeader from "../components/CustomHeader";
 import { withRouter } from "react-router-native";
-import { get } from "lodash";
 import RestaurantCard from "../components/RestaurantCard";
 import { connect } from "react-redux";
 import { Creators as OrderActions } from "../store/ducks/order";
 import { bindActionCreators } from "redux";
 import { SimpleAnimation } from "react-native-simple-animations";
 import { Mutation } from "react-apollo";
-import { ADD_ORDER } from "../graphql/Order";
+import { ADD_ORDER, GET_MY_ORDER } from "../graphql/Order";
+import { withApollo } from "react-apollo";
 
 class Order extends React.Component {
   componentDidMount() {
-    console.log(this.props);
-    if (this.props.order.order_type === "ORDERING") {
-      let restaurant = this.props.order.restaurant;
-      this.setState({ restaurant });
+    switch (this.props.order.order_type) {
+      case "ORDERING":
+        let restaurant = this.props.order.restaurant;
+        this.setState({ restaurant });
+        break;
+      case "ORDERED":
+        this.props.history.push("/order/ordered");
+        break;
+      default:
+        this.props.client
+          .query({
+            query: GET_MY_ORDER
+          })
+          .then(({ data }) => console.log(data));
+        break;
     }
   }
   ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -46,7 +56,7 @@ class Order extends React.Component {
   updateOrder(restaurant, table) {
     this.props.updateOrder({
       ...this.props.order,
-      client: this.props.client,
+      client: this.props.clientUser,
       restaurant_table: table,
       restaurant
     });
@@ -58,13 +68,11 @@ class Order extends React.Component {
     await mutation();
     this.props.updateType("ORDERED");
     this.props.history.push("/order/success");
-    this.props.clearOrder()
   }
   closeOrder() {
-    this.props.clearOrder()
-    this.props.updateType("")
+    this.props.clearOrder();
+    this.props.updateType("");
     this.props.history.push("/home");
-
   }
   render() {
     return (
@@ -75,7 +83,13 @@ class Order extends React.Component {
             name: "chevron-thin-left",
             onPress: () => this.props.history.push("/home")
           }}
-          iconRight={this.props.order.order_type === "ORDERING" && { name: "md-close", type: "Ionicons", onPress: () => this.closeOrder() }}
+          iconRight={
+            this.props.order.order_type === "ORDERING" && {
+              name: "md-close",
+              type: "Ionicons",
+              onPress: () => this.closeOrder()
+            }
+          }
           title={"Pedidos"}
         />
         <Content style={{ backgroundColor: "#f6f6f6" }}>
@@ -245,7 +259,7 @@ class Order extends React.Component {
 
 const mapStateToProps = ({ order, client }) => ({
   order,
-  client
+  clientUser: client
 });
 
 const mapDispatchToProps = dispatch =>
@@ -254,4 +268,4 @@ const mapDispatchToProps = dispatch =>
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withRouter(Order));
+)(withApollo(withRouter(Order)));

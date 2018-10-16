@@ -5,4 +5,6 @@ export {default as Checkin} from "./Checkin";
 export {default as Perfil} from "./Perfil";
 export {default as Register} from "./Register";
 export {default as MapRestaurant} from "./Map";
+export {default as Ordered} from "./Ordered";
+export {default as OrderSuccess} from "./OrderSuccess";
 

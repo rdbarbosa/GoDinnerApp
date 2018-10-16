@@ -8,18 +8,18 @@ import {
   Checkin,
   Perfil,
   Register,
-  MapRestaurant
+  MapRestaurant,
+  OrderSuccess,
+  Ordered
 } from "./screens";
 import { NativeRouter, Route, Switch } from "react-router-native";
 import { StyleProvider, Root } from "native-base";
 import { Provider } from "react-redux";
 
-import ApolloClient, { gql } from "apollo-boost";
+import ApolloClient from "apollo-boost";
 import getTheme from "../native-base-theme/components";
 import godinner from "../native-base-theme/variables/godinner.js";
 import store from "./store";
-import OrderSuccess from "./screens/OrderSuccess";
-
 // const urlHml = "https://godinner-backend.herokuapp.com";
 const urlHml = "http://10.0.2.2:8000";
 
@@ -49,14 +49,19 @@ export default class App extends Component {
           <StyleProvider style={getTheme(godinner)}>
             <NativeRouter>
               <React.Fragment>
-                <ApolloProvider client={secret}> 
+                <ApolloProvider client={secret}>
                   <Switch>
                     <Route exact path="/home" component={Home} />
                     <Route exact path="/order" component={Order} />
                     <Route exact path="/checkin" component={Checkin} />
                     <Route exact path="/perfil" component={Perfil} />
                     <Route exact path="/map" component={MapRestaurant} />
-                    <Route exact path="/order/success" component={OrderSuccess} />
+                    <Route
+                      exact
+                      path="/order/success"
+                      component={OrderSuccess}
+                    />
+                    <Route exact path="/order/ordered" component={Ordered} />
                   </Switch>
                 </ApolloProvider>
                 <ApolloProvider client={client}>

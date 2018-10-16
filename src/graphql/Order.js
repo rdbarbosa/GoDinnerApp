@@ -19,3 +19,29 @@ mutation($client_id: ID!, $restaurant_id: ID!, $restaurant_tables_id: ID!, $menu
   }
 }
 `
+
+export const GET_MY_ORDER = gql`
+query {
+    myorder {
+      id
+      status
+      star
+      created_at
+      restaurant {
+        id
+        name
+        avatar_url
+      }
+      restaurant_tables {
+        id
+        table_number
+      }
+      menu_options {
+        name
+        price
+        ingredients
+      }
+    }
+}
+
+`

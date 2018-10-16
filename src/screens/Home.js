@@ -9,22 +9,17 @@ import CustomHeader from "../components/CustomHeader";
 import { withApollo } from "react-apollo";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import CustomToast from "../components/CustomToast";
 import { Creators as RestaurantActions } from "../store/ducks/restaurants";
 import { Creators as ClientActions } from "../store/ducks/client";
 import { SimpleAnimation } from "react-native-simple-animations";
 class Home extends React.Component {
-  state = {
-    restaurants: []
-  };
   componentWillMount() {
-    const { client, token, updateRestaurants, updateClient } = this.props;
+    const { client, updateRestaurants } = this.props;
     client
       .query({
         query: fetchRestaurants
       })
       .then(({ data }) => {
-        this.setState({ restaurants: data.restaurant });
         updateRestaurants(data.restaurant);
       })
       .catch(error => console.error(error));
@@ -41,11 +36,10 @@ class Home extends React.Component {
         <Content style={{ backgroundColor: "#f6f6f6", marginTop: 15 }}>
           <FlatList
             style={{ width: "100%" }}
-            keyExtractor={(item, index) => item.id.toString()}
+            keyExtractor={(item) => item.id.toString()}
             data={this.props.restaurants}
             renderItem={({ item: { id, avatar_url, name }, index }) => (
               <SimpleAnimation
-                // delay={(index + 1) * 200}
                 duration={1000}
                 movementType="slide"
                 direction="left"

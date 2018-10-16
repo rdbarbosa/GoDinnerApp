@@ -25,7 +25,11 @@ const INITIAL_STATE = {
 
 const update = (state = INITIAL_STATE, action) =>
   (state = { ...state, ...action.order });
-const clear = (state = INITIAL_STATE, action) => (state = INITIAL_STATE);
+const clear = (state = INITIAL_STATE, action) =>
+  (state = {
+    ...INITIAL_STATE,
+    order_type: state.order_type
+  });
 const addOption = (state = INITIAL_STATE, action) => {
   let array = [...state.menu_options];
   array.push(action.id);
