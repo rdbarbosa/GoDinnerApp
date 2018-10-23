@@ -19,7 +19,7 @@ const RestaurantCard = ({ name, desc, time = {}, avaliation = 0, thumb, style = 
         </Text>
       </Right>
     </CardItem>
-    <CardItem style={{ marginTop: -18 }}>
+    <CardItem style={{ marginTop: -15 }}>
       <Icon style={styles.heartIcon} type="FontAwesome" name={avaliation >= 1 ? "star" : "star-o"} />
       <Icon style={styles.heartIcon} type="FontAwesome" name={avaliation >= 2 ? "star" : "star-o"} />
       <Icon style={styles.heartIcon} type="FontAwesome" name={avaliation >= 3 ? "star" : "star-o"} />

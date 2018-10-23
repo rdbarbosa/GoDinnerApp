@@ -20,11 +20,23 @@ const INITIAL_STATE = {
   restaurant: {},
   restaurant_table: {},
   restaurant: {},
-  menu_options: []
+  menu_options: [],
+  created_at: '',
+  updated_at: '',
+  total: 0
 };
 
-const update = (state = INITIAL_STATE, action) =>
-  (state = { ...state, ...action.order });
+const update = (state = INITIAL_STATE, action) => {
+   //{ ...state, ...action.order };
+  let array = action.order.menu_options
+  let total = array.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0)
+
+  return {
+    ...state,
+    ...action.order,
+    total,
+  }
+}
 const clear = (state = INITIAL_STATE, action) =>
   (state = {
     ...INITIAL_STATE,
@@ -33,17 +45,22 @@ const clear = (state = INITIAL_STATE, action) =>
 const addOption = (state = INITIAL_STATE, action) => {
   let array = [...state.menu_options];
   array.push(action.id);
+  let total = array.reduce((acc, curr) => acc + curr, 0)
   return {
     ...state,
-    menu_options: array
+    menu_options: array,
+    total
   };
 };
 const removeOption = (state = INITIAL_STATE, action) => {
   let array = [...state.menu_options];
   array.splice(array.findIndex(v => v === action.id), 1);
+  let total = array.reduce((acc, curr) => acc + curr, 0)
+
   return {
     ...state,
-    menu_options: array
+    menu_options: array,
+    total,
   };
 };
 const updateType = (state = INITIAL_STATE, action) => ({

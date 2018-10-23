@@ -45,7 +45,8 @@ class Checkin extends React.Component {
           ...this.props.order,
           client: this.props.currentClient,
           restaurant_table: qr_code_table,
-          restaurant: data.restaurant[0]
+          restaurant: data.restaurant[0],
+          menu_options: [],
         });
         this.props.updateType("ORDERING");
         this.props.history.push("/order");

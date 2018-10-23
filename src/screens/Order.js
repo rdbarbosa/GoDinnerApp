@@ -28,6 +28,7 @@ import { SimpleAnimation } from "react-native-simple-animations";
 import { Mutation } from "react-apollo";
 import { ADD_ORDER, GET_MY_ORDER } from "../graphql/Order";
 import { withApollo } from "react-apollo";
+// import{} from 'moment'
 
 class Order extends React.Component {
   componentDidMount() {
@@ -37,14 +38,29 @@ class Order extends React.Component {
         this.setState({ restaurant });
         break;
       case "ORDERED":
-        this.props.history.push("/order/ordered");
-        break;
       default:
         this.props.client
           .query({
-            query: GET_MY_ORDER
+            query: GET_MY_ORDER,
+            fetchPolicy: "no-cache"
           })
-          .then(({ data }) => console.log(data));
+          .then(({ data }) => {
+            if (data.myorder) {
+              this.props.updateOrder({
+                ...this.props.order,
+                client: this.props.clientUser,
+                restaurant_table: data.myorder.restaurant_tables,
+                restaurant: data.myorder.restaurant,
+                menu_options: data.myorder.menu_options,
+                created_at: data.myorder.created_at,
+                updated_at: data.myorder.updated_at,
+              });
+              this.props.updateType({
+                type: "ORDERED"
+              });
+              this.props.history.push("/order/ordered");
+            }
+          });
         break;
     }
   }
@@ -218,7 +234,7 @@ class Order extends React.Component {
             )}
           </View>
         </Content>
-        {this.props.order.menu_options.length > 0 && (
+        {this.props.order.menu_options.length > 0 && this.props.order.order_type === "ORDERING" && (
           <Footer>
             <Mutation
               mutation={ADD_ORDER}
