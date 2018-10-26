@@ -20,8 +20,8 @@ import ApolloClient from "apollo-boost";
 import getTheme from "../native-base-theme/components";
 import godinner from "../native-base-theme/variables/godinner.js";
 import store from "./store";
-// const urlHml = "https://godinner-backend.herokuapp.com";
-const urlHml = "http://10.0.2.2:8000";
+const urlHml = "https://godinner-backend.herokuapp.com";
+// const urlHml = "http://10.0.2.2:8000";
 
 const secret = new ApolloClient({
   uri: urlHml + "/graphql/secret",

@@ -6,6 +6,7 @@
     "postinstall": "rndebugger-open",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
+    "flow": "flow",
     "clean": "cd android & .\\gradlew clean & cd .. & react-native run-android"
   },
   "dependencies": {

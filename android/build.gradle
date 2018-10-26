@@ -11,13 +11,13 @@ buildscript {
 allprojects {
     repositories {
         mavenLocal()
-        jcenter()
         google()
+        maven { url "https://maven.google.com" }
         maven {
            url "$rootDir/../node_modules/react-native/android"
         }
         maven { url "https://jitpack.io" }
-        maven { url "https://maven.google.com" }
+        jcenter()
         google()
     }
 }
