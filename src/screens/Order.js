@@ -163,13 +163,7 @@ class Order extends React.Component {
                                           {ingredients}
                                         </Text>
                                         <Text note numberOfLines={2}>
-                                          {Number(price).toLocaleString(
-                                            "pt-BR",
-                                            {
-                                              currency: "BRL",
-                                              style: "currency"
-                                            }
-                                          )}
+                                          R$ {Number(price).toFixed(2)}
                                         </Text>
                                       </Body>
                                       <Right

@@ -4883,6 +4883,10 @@ react-redux@^5.0.7:
     loose-envify "^1.1.0"
     prop-types "^15.6.0"
 
+react-router-native-stack@^0.0.15:
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/react-router-native-stack/-/react-router-native-stack-0.0.15.tgz#d21591155857c24404aaf39ac9d954c9c96b1794"
+
 react-router-native@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/react-router-native/-/react-router-native-4.3.0.tgz#4ad821f0543a96694d8ec4ee735a299e330181a1"

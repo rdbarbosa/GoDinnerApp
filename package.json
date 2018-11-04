@@ -29,6 +29,7 @@
     "react-native-simple-animations": "^0.1.2",
     "react-redux": "^5.0.7",
     "react-router-native": "^4.3.0",
+    "react-router-native-stack": "^0.0.15",
     "redux": "^4.0.0",
     "reduxsauce": "^1.0.0"
   },

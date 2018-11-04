@@ -17,7 +17,9 @@ import { withRouter } from "react-router-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Creators as OrderActions } from "../store/ducks/order";
-
+import moment from "moment";
+import "moment/locale/pt-br";
+moment.locale("pt-br");
 class Ordered extends React.Component {
   render() {
     return (
@@ -36,16 +38,8 @@ class Ordered extends React.Component {
               <Text>Pedido:</Text>
             </Left>
             <Right>
-              <Text note>
-                {this.props.order.created_at}
-              </Text>
-              <Text>
-                Total:{" "}
-                {this.props.order.total.toLocaleString("pt-BR", {
-                  style: "currency",
-                  currency: "BRL"
-                })}
-              </Text>
+              <Text note>{moment(this.props.order.created_at).fromNow()}</Text>
+              <Text>Total: R$ {Number(this.props.order.total).toFixed(2)}</Text>
             </Right>
           </View>
           <List style={{ marginBottom: 200 }}>
@@ -60,12 +54,7 @@ class Ordered extends React.Component {
                     <Text note>{ingredients}</Text>
                   </Body>
                   <Right>
-                    <Text note>
-                      {price.toLocaleString("pt-BR", {
-                        style: "currency",
-                        currency: "BRL"
-                      })}
-                    </Text>
+                    <Text note>R$ {price.toFixed(2, ',')}</Text>
                   </Right>
                 </ListItem>
               )

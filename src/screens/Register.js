@@ -138,7 +138,7 @@ class Register extends Component {
               )}
             </Mutation>
             <Text
-              onPress={() => this.props.history.push("/")}
+              onPress={() => this.props.history.goBack()}
               style={styles.haveAccount}
             >
               Já tem conta?

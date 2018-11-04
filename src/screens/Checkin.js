@@ -22,45 +22,45 @@ class Checkin extends React.Component {
     /**
      * #DEBUG
      */
-    // setTimeout(async () => {
-    //   try {
-    //     const { data } = await this.props.client.query({
-    //       query: READ_QR,
-    //       fetchPolicy: "no-cache",
-    //       variables: {
-    //         qr_code:
-    //           "$2y$10$QPIqboTpdCpiEoqBSlyDOu4eWZmkTOxY9wsnKk8u6JwPZW6EGE/uW"
-    //       }
-    //     });
-    //     console.log("passou aqui", data);
-    //     const { name, qr_code_table } = data.restaurant[0];
-    //     CustomToast({
-    //       text: `Bem vindo ao ${name}, você está na mesa: ${
-    //         qr_code_table.table_number
-    //       } `,
-    //       type: "success",
-    //       duration: 4000
-    //     });
-    //     this.props.updateOrder({
-    //       ...this.props.order,
-    //       client: this.props.currentClient,
-    //       restaurant_table: qr_code_table,
-    //       restaurant: data.restaurant[0],
-    //       menu_options: [],
-    //     });
-    //     this.props.updateType("ORDERING");
-    //     this.props.history.push("/order");
-    //   } catch (error) {
-    //     if (error.graphQLErrors[0]) {
-    //       CustomToast({
-    //         text: error.graphQLErrors[0].message,
-    //         type: "danger",
-    //         duration: 3000
-    //       });
-    //     }
-    //     return;
-    //   }
-    // }, 300);
+    setTimeout(async () => {
+      try {
+        const { data } = await this.props.client.query({
+          query: READ_QR,
+          fetchPolicy: "no-cache",
+          variables: {
+            qr_code: e.data
+          }
+        });
+        console.log("passou aqui", data);
+        const { name, qr_code_table } = data.restaurant[0];
+        CustomToast({
+          text: `Bem vindo ao ${name}, você está na mesa: ${
+            qr_code_table.table_number
+          } `,
+          type: "success",
+          duration: 4000
+        });
+        this.props.updateOrder({
+          ...this.props.order,
+          client: this.props.currentClient,
+          restaurant_table: qr_code_table,
+          restaurant: data.restaurant[0],
+          menu_options: []
+        });
+        this.props.updateType("ORDERING");
+        this.props.history.push("/order");
+      } catch (error) {
+        this.setState({ read: false });
+        if (error.graphQLErrors[0]) {
+          CustomToast({
+            text: error.graphQLErrors[0].message,
+            type: "danger",
+            duration: 3000
+          });
+        }
+        return;
+      }
+    }, 300);
     /**
      *
      */
