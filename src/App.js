@@ -10,7 +10,8 @@ import {
   Register,
   MapRestaurant,
   OrderSuccess,
-  Ordered
+  Ordered,
+  Orders
 } from "./screens";
 import { NativeRouter, Route, Switch } from "react-router-native";
 import { StyleProvider, Root, Drawer, View } from "native-base";
@@ -21,6 +22,7 @@ import getTheme from "../native-base-theme/components";
 import godinner from "../native-base-theme/variables/godinner.js";
 import store from "./store";
 import SideMenu from "./components/SideMenu";
+// import Orders from "./screens/Orders";
 // const urlHml = "https://godinner-backend.herokuapp.com";
 const urlHml = "http://10.0.2.2:8000";
 
@@ -63,7 +65,7 @@ export default class App extends Component {
                   >
                     <Switch>
                       <Route exact path="/home" component={Home} />
-                      <Route exact path="/orders" component={Order} />
+                      <Route exact path="/orders" component={Orders} />
                       <Route exact path="/order" component={Order} />
                       <Route exact path="/checkin" component={Checkin} />
                       <Route exact path="/perfil" component={Perfil} />

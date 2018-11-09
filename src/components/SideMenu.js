@@ -23,6 +23,7 @@ const SideMenu = ({ client, removeToken, history, closeMenu }) => (
       }}
       imageStyle={{ resizeMode: "cover" }}
       source={require("../assets/bg-perfil.jpg")}
+
     >
       <Thumbnail
         style={{
