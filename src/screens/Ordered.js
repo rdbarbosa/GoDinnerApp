@@ -39,7 +39,7 @@ class Ordered extends React.Component {
             </Left>
             <Right>
               <Text note>{moment(this.props.order.created_at).fromNow()}</Text>
-              <Text>Total: R$ {Number(this.props.order.total).toFixed(2)}</Text>
+              <Text>Total: R$ {Number(this.props.order.total).toFixed(2).replace(".", ",")}</Text>
             </Right>
           </View>
           <List style={{ marginBottom: 200 }}>
@@ -54,7 +54,7 @@ class Ordered extends React.Component {
                     <Text note>{ingredients}</Text>
                   </Body>
                   <Right>
-                    <Text note>R$ {price.toFixed(2, ',')}</Text>
+                    <Text note>R$ {price.toFixed(2).replace(".", ",")}</Text>
                   </Right>
                 </ListItem>
               )

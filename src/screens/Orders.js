@@ -67,7 +67,9 @@ class Orders extends React.Component {
                           .reduce((acc, value) => {
                             return acc + value.price;
                           }, 0)
-                          .toFixed(2)}
+                          .toFixed(2)
+                          .replace(".", ",")}
+                          
                       </Text>
                     </View>
                     <View style={{ flexDirection: "row" }}>
