@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router";
-import { FlatList } from "react-native";
+import { FlatList, Animated, TouchableOpacity } from "react-native";
 import { fetchRestaurants } from "../graphql/Home";
 import { Container, Content, View } from "native-base";
 import Navigation from "../components/Navigation";
@@ -17,7 +17,9 @@ class Home extends React.Component {
     const { client, updateRestaurants } = this.props;
     client
       .query({
-        query: fetchRestaurants
+        query: fetchRestaurants,
+        fetchPolicy: "network-only",
+
       })
       .then(({ data }) => {
         updateRestaurants(data.restaurant);
@@ -25,6 +27,9 @@ class Home extends React.Component {
       .catch(error => console.error(error));
   }
 
+  animateAndPush(item) {
+    this.props.history.push("/restaurant/" + item.id, { restaurant: item });
+  }
   render() {
     return (
       <Container>
@@ -36,9 +41,9 @@ class Home extends React.Component {
         <Content style={{ backgroundColor: "#f6f6f6", marginTop: 15 }}>
           <FlatList
             style={{ width: "100%" }}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={item => item.id.toString()}
             data={this.props.restaurants}
-            renderItem={({ item: { id, avatar_url, name }, index }) => (
+            renderItem={({ item, index }) => (
               <SimpleAnimation
                 duration={1000}
                 movementType="slide"
@@ -46,17 +51,19 @@ class Home extends React.Component {
                 distance={(index + 1) * 200}
                 useNativeDriver={true}
               >
-                <RestaurantCard
-                  key={id}
-                  thumb={{ uri: avatar_url }}
-                  name={name}
-                  desc="Lancheria"
-                  time={{
-                    open: "18:00",
-                    close: "00:00"
-                  }}
-                  avaliation={3}
-                />
+                <TouchableOpacity onPress={() => this.animateAndPush(item)}>
+                  <RestaurantCard
+                    key={item.id}
+                    thumb={{ uri: item.avatar_url }}
+                    name={item.name}
+                    desc="Lancheria"
+                    time={{
+                      open: "18:00",
+                      close: "00:00"
+                    }}
+                    avaliation={3}
+                  />
+                </TouchableOpacity>
               </SimpleAnimation>
             )}
           />

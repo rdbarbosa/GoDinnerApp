@@ -42,6 +42,10 @@ export const fetchRestaurants = gql`
       }
       posts {
         id
+        title
+        content
+        image_url
+        created_at
         likes {
           user {
             id
@@ -69,6 +73,7 @@ export const fetchRestaurants = gql`
       }
       tables {
         id
+        table_number
         state
       }
     }

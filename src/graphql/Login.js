@@ -16,6 +16,7 @@ export const login = gql`
                 avatar_url
                 description
                 user {
+                    id
                     email
                 }
             }

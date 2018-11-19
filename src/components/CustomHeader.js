@@ -9,7 +9,7 @@ const CustomHeader = ({ iconLeft, title, iconRight, history, closeMenu, openMenu
   <Header>
     {iconLeft && (
       <Left>
-        <Button transparent onPress={openMenu}>
+        <Button transparent onPress={iconLeft.onPress ? iconLeft.onPress : openMenu}>
           {/* <Icon name="md-menu" /> */}
           <Icon  {...iconLeft} />
         </Button>
@@ -20,9 +20,9 @@ const CustomHeader = ({ iconLeft, title, iconRight, history, closeMenu, openMenu
     </Body>
     {iconRight && (
       <Right>
-        <Button transparent>
+        <Button transparent onPress={() => history.push("/map")}>
           {/* <Icon name="location" type="Entypo" /> */}
-          <Icon onPress={() => history.push("/map")} {...iconRight} />
+          <Icon  {...iconRight} />
         </Button>
       </Right>
     )}

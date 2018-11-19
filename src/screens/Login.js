@@ -10,7 +10,7 @@ import {
   AsyncStorage
 } from "react-native";
 import { withRouter } from "react-router-native";
-import { withApollo, compose } from "react-apollo";
+import { withApollo } from "react-apollo";
 import { login } from "../graphql/Login";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";

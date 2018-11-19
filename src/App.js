@@ -11,7 +11,8 @@ import {
   MapRestaurant,
   OrderSuccess,
   Ordered,
-  Orders
+  Orders,
+  ShowRestaurant
 } from "./screens";
 import { NativeRouter, Route, Switch } from "react-router-native";
 import { StyleProvider, Root, Drawer, View } from "native-base";
@@ -23,8 +24,8 @@ import godinner from "../native-base-theme/variables/godinner.js";
 import store from "./store";
 import SideMenu from "./components/SideMenu";
 // import Orders from "./screens/Orders";
-// const urlHml = "https://godinner-backend.herokuapp.com";
-const urlHml = "http://10.0.2.2:8000";
+const urlHml = "https://godinner-backend.herokuapp.com";
+// const urlHml = "http://10.0.2.2:8000";
 
 const secret = new ApolloClient({
   uri: urlHml + "/graphql/secret",
@@ -74,6 +75,11 @@ export default class App extends Component {
                         exact
                         path="/order/success"
                         component={OrderSuccess}
+                      />
+                      <Route
+                        exact
+                        path="/restaurant/:restaurant"
+                        component={ShowRestaurant}
                       />
                       <Route exact path="/order/ordered" component={Ordered} />
                     </Switch>

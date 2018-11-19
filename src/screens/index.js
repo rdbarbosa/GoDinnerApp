@@ -8,4 +8,5 @@ export {default as MapRestaurant} from "./Map";
 export {default as Ordered} from "./Ordered";
 export {default as OrderSuccess} from "./OrderSuccess";
 export {default as Orders} from "./Orders";
+export {default as ShowRestaurant} from "./ShowRestaurant";
 

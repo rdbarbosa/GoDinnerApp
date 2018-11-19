@@ -12,7 +12,7 @@ import { Toast } from "native-base";
  * @param {Function} ToastOptions.onClose
  * @param {Object} ToastOptions.textStyle
  */
-function Toaster({
+function CustomToast({
   text,
   buttonText,
   duration,
@@ -42,4 +42,4 @@ function Toaster({
   });
 }
 
-export default Toaster
+export default CustomToast

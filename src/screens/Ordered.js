@@ -32,7 +32,7 @@ class Ordered extends React.Component {
           }}
           title={"Pedidos"}
         />
-        <Content style={{ height: 600, backgroundColor: "white", padding: 20 }}>
+        <Content style={{ backgroundColor: "white", padding: 20 }}>
           <View style={{ flexDirection: "row" }}>
             <Left>
               <Text>Pedido:</Text>
